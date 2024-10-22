@@ -13,7 +13,7 @@ from cdt.causality.graph import PC
 from cdt.causality.graph import CCDr
 from cdt.causality.graph import GES
 
-cdt.SETTINGS.rpath = '/usr/local/bin/R'
+cdt.SETTINGS.rpath = '/usr/local/bin/Rscript'
 cdt.SETTINGS.GPU = 1
 
 class EstimateEffect:
