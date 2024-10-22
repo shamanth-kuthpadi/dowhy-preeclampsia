@@ -8,6 +8,13 @@ import dowhy.gcm.falsify
 from dowhy.gcm.falsify import falsify_graph
 from dowhy.gcm.falsify import apply_suggestions
 from dowhy import CausalModel
+import cdt
+from cdt.causality.graph import PC
+from cdt.causality.graph import CCDr
+from cdt.causality.graph import GES
+
+cdt.SETTINGS.rpath = '/usr/local/bin/R'
+cdt.SETTINGS.GPU = 1
 
 class EstimateEffect:
     def __init__(self, data):
@@ -46,6 +53,10 @@ class EstimateEffect:
                     pydot_graph_lingam = graph_from_dot_data(dot_data_lingam)[0]
                     predicted_graph = nx.drawing.nx_pydot.from_pydot(pydot_graph_lingam)
                     predicted_graph = nx.DiGraph(predicted_graph)
+                    self.graph = predicted_graph
+                case 'CCDr':
+                    model = PC()
+                    predicted_graph = model.predict(self.data)
                     self.graph = predicted_graph
             
             if pk is not None:
