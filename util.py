@@ -86,4 +86,6 @@ def gcm(X, Y, Z=None):
     return gvm.generalised_cov_based(X, Y, Z=Z, prediction_model_X=create_gradient_boost_regressor,
                                  prediction_model_Y=create_gradient_boost_regressor)
 
-# plotter/visualizer that is going to visualize my metrics for me
+def take_subset(df, frac=0.01, rs=15):
+    subset_df = df.sample(frac=frac, axis=1, random_state = rs) 
+    return subset_df
