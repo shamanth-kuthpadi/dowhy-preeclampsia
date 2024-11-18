@@ -12,9 +12,10 @@ import cdt
 from cdt.causality.graph import PC
 from cdt.causality.graph import CCDr
 from cdt.causality.graph import GES
+from cdt.causality.graph import CAM
+from cdt.utils.graph import dagify_min_edge
 
-cdt.SETTINGS.rpath = '/usr/local/bin/R'
-cdt.SETTINGS.GPU = 1
+cdt.SETTINGS.rpath = '/usr/local/bin/Rscript'
 
 class EstimateEffect:
     def __init__(self, data):
@@ -57,7 +58,8 @@ class EstimateEffect:
                 case 'CCDr':
                     model = PC()
                     predicted_graph = model.predict(self.data)
-                    self.graph = predicted_graph
+                    predicted_graph = dagify_min_edge(predicted_graph)
+                    self.graph = nx.DiGraph(predicted_graph)
             
             if pk is not None:
                 # ensuring that pk is indeed of the right type
