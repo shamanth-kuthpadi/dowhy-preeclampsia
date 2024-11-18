@@ -86,4 +86,18 @@ def gcm(X, Y, Z=None):
     return gvm.generalised_cov_based(X, Y, Z=Z, prediction_model_X=create_gradient_boost_regressor,
                                  prediction_model_Y=create_gradient_boost_regressor)
 
-# plotter/visualizer that is going to visualize my metrics for me
+def preproc(betas_df, pds_df):
+    betas_df_t = betas_df.set_index('Unnamed: 0').T.reset_index().rename(columns={'index': 'sampleid'})
+
+    merged_df = pd.merge(pds_df, betas_df_t, on='sampleid')
+
+    def clean_column_names(col_name):
+        if "::" in col_name:
+            return col_name.split("::")[0]
+        return col_name
+
+    merged_df.columns = [clean_column_names(col) for col in merged_df.columns]
+    df = merged_df.drop(columns=['Unnamed: 0', 'sampleid', 'Gestwk', 'Ethnicity', 'Dataset', 'Babygender'])
+    df['Group'] = df['Group'].map({'Control': 0, 'Preeclampsia': 1})
+
+    return df
