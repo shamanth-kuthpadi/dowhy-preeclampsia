@@ -61,11 +61,23 @@ def disp_graph(graph, labels=None):
     plt.imshow(img)
     plt.show()
 
-def disp_graph_nx(G):
+def disp_graph_nx(G, fig_size=(10, 10)):
+    """
+    Displays a NetworkX graph using pydot for rendering.
+    
+    Parameters:
+    - G (networkx.Graph): The graph to display.
+    - fig_size (tuple): Size of the matplotlib figure, default is (10, 10).
+    """
+    # Convert NetworkX graph to a PyDot graph
     pydot_graph = nx.nx_pydot.to_pydot(G)
+    # Render graph to PNG
     tmp_png = pydot_graph.create_png()
+    # Read the PNG image
     fp = io.BytesIO(tmp_png)
     img = mpimg.imread(fp, format='png')
+    # Plot with adjusted figure size
+    plt.figure(figsize=fig_size)
     plt.axis('off')
     plt.imshow(img)
     plt.show()
