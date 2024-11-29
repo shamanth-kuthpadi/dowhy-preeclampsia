@@ -34,11 +34,11 @@ class EstimateEffect:
         labels = list(self.data.columns)
         try:
             match algo:
-                case 'pc':
-                    cg = pc(data=df, show_progress=False, node_names=labels)
-                    cg = pdag2dag(cg.G)
-                    predicted_graph = genG_to_nx(cg, labels)
-                    self.graph = predicted_graph
+                # case 'pc':
+                #     cg = pc(data=df, show_progress=False, node_names=labels)
+                #     cg = pdag2dag(cg.G)
+                #     predicted_graph = genG_to_nx(cg, labels)
+                #     self.graph = predicted_graph
                 case 'ges':
                     cg = ges(X=df, node_names=labels)
                     cg = pdag2dag(cg['G'])
@@ -55,7 +55,7 @@ class EstimateEffect:
                     predicted_graph = nx.drawing.nx_pydot.from_pydot(pydot_graph_lingam)
                     predicted_graph = nx.DiGraph(predicted_graph)
                     self.graph = predicted_graph
-                case 'CCDr':
+                case 'pc':
                     model = PC()
                     predicted_graph = model.predict(self.data)
                     predicted_graph = dagify_min_edge(predicted_graph)
